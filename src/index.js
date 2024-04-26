@@ -1,5 +1,5 @@
 const {MongoMemoryServer} = require('mongodb-memory-server');
-const {MongoClient} = require('mongodb');
+const {MongoClient, ObjectId} = require('mongodb');
 const express = require('express');
 const fs = require('fs'); //allows file system browsing
 
@@ -8,7 +8,8 @@ const app = express()
 const jsonFilePath = "src/data/productsSmall.json"
 const collectionName = "products"
 
-let db = null
+//let db = null
+let dbCollection = null
 
 async function startDatabase() {
     const mongo = await MongoMemoryServer.create();
@@ -16,21 +17,27 @@ async function startDatabase() {
     
     const client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true });
     await client.connect();
-    db = client.db()
+    const db = client.db()
 
     const dataJson = fs.readFileSync(jsonFilePath);
     const data = JSON.parse(dataJson);
 
-    const collection = db.collection(collectionName);
-    await collection.insertMany(data);
+    dbCollection = db.collection(collectionName);
+    await dbCollection.insertMany(data);
 }
 
-app.get('/', async (req, res) => {    
-    res.send(await db.collection(collectionName).find({}).toArray());
+app.get("/", async (req, res) => {    
+    const result = await dbCollection.find({}).toArray()
+
+    res.send(result);
 });
 
-app.get('/test', async (req, res) => {
-    res.send("Hello test!");
+app.get("/:id", async (req, res) => {
+    const id = req.params.id;
+
+    const result = await dbCollection.findOne({_id: new ObjectId(id)});
+
+    res.send(result);    
 });
 
 app.listen(3000, async() => {
