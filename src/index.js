@@ -5,10 +5,10 @@ const fs = require('fs'); //allows file system browsing
 
 const app = express()
 
-const jsonFilePath = "src/data/productsSmall.json"
-const collectionName = "products"
+const jsonFilePath = "src/data/productsSmall.json";
+const indexPath = "src/index.html";
+const collectionName = "products";
 
-//let db = null
 let dbCollection = null
 
 async function startDatabase() {
@@ -26,21 +26,35 @@ async function startDatabase() {
     await dbCollection.insertMany(data);
 }
 
-app.get("/", async (req, res) => {    
-    const result = await dbCollection.find({}).toArray()
+app.get("/products", async (req, res) => {    
+    const result = await dbCollection.find({}).project({_id:1}).toArray();
 
     res.send(result);
 });
 
-app.get("/:id", async (req, res) => {
+app.get("/products/:id", async (req, res) => {
     const id = req.params.id;
 
-    const result = await dbCollection.findOne({_id: new ObjectId(id)});
+    const result = await dbCollection.findOne({_id: new ObjectId(id)}, {name:1});
 
     res.send(result);    
 });
 
+app.get("/", (req, res) => {
+    
+    fs.readFile(indexPath, 'utf8', (err, htmlContent) => {
+        if (err) {
+            console.error('Error reading HTML file:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        res.send(htmlContent);  
+    });
+});
+
 app.listen(3000, async() => {
     startDatabase();
+
     console.log("Listening on port 3000");
 });
