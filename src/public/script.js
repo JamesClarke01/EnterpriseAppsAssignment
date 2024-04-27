@@ -1,25 +1,32 @@
 let idArray = [];
 var currentItem = 0;
+
 function init() {
+   
     $.ajax({
         url: "products",
         method: "GET",
         dataType: "json",
-        success: function (data) {
-            setupPage(data);
+        success: function (data) {                
+            setupPage(data);                         
         },
         error: function (error) {
             console.log('Error fetching data:', error);
         }
-    });
+    })       
+
 }
+
 function setupPage(data) {
-    data.forEach(element => {
-        idArray.push(element["_id"]);
+    data.forEach(element => {                   
+        idArray.push(element["_id"]);                    
     });
+
     displayCurrentProduct();
 }
-function displayCurrentProduct() {
+
+function displayCurrentProduct() {        
+    
     $.ajax({
         url: "products/" + idArray[currentItem],
         method: "GET",
@@ -30,7 +37,7 @@ function displayCurrentProduct() {
         error: function (error) {
             console.log('Error fetching data:', error);
         }
-    });
+    })
 }
+
 init();
-//# sourceMappingURL=script.js.map
