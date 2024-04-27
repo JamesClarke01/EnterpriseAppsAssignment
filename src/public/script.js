@@ -44,24 +44,29 @@ function displayCurrentProduct() {
 }
 
 function incCurrentItem() {
-    console.log(currentItem);
     
-    if(currentItem == idArray.length-2) { //Loop back to start of array
+    
+    if(currentItem == idArray.length-1) { //Loop back to start of array
         currentItem = 0;
     } else {    
         currentItem++;
     }
+
+    console.log(currentItem);
+
     displayCurrentProduct();
 }
 
 function decCurrentItem() {
 
-    console.log(currentItem);
+    
     if(currentItem == 0) {
         currentItem = idArray.length - 1;
     } else {
         currentItem--;
     }
+
+    console.log(currentItem);
     
     displayCurrentProduct();
 }
