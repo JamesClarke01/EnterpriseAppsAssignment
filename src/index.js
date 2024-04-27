@@ -56,8 +56,15 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'public', indexFile));
 });
 
+
+app.delete("/products/:id", async (req, res) => {
+    dbCollection.deleteOne({_id: new ObjectId(req.params.id)});
+});
+
+
 app.listen(3000, async() => {
     startDatabase();
 
     console.log("Listening on port 3000");
 });
+
