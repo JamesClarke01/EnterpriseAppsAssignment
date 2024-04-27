@@ -35,7 +35,6 @@ function displayCurrentProduct() {
             console.log(data);
             document.getElementById("nameData").textContent = data.name;
             document.getElementById("priceData").textContent = data.price;
-            console.log(data.url);
             document.getElementById("imageData").src = data.image;
         },
         error: function (error) {
@@ -45,12 +44,25 @@ function displayCurrentProduct() {
 }
 
 function incCurrentItem() {
-    currentItem++;
+    console.log(currentItem);
+    
+    if(currentItem == idArray.length-2) { //Loop back to start of array
+        currentItem = 0;
+    } else {    
+        currentItem++;
+    }
     displayCurrentProduct();
 }
 
 function decCurrentItem() {
-    currentItem--;
+
+    console.log(currentItem);
+    if(currentItem == 0) {
+        currentItem = idArray.length - 1;
+    } else {
+        currentItem--;
+    }
+    
     displayCurrentProduct();
 }
 
