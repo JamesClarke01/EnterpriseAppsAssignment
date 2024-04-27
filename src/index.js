@@ -26,18 +26,25 @@ async function startDatabase() {
     await dbCollection.insertMany(data);
 }
 
+//return an array of IDs of all products
 app.get("/products", async (req, res) => {    
     const result = await dbCollection.find({}).project({_id:1}).toArray();
 
     res.send(result);
 });
 
+//return a specific product specified by id
 app.get("/products/:id", async (req, res) => {
     const id = req.params.id;
 
-    const result = await dbCollection.findOne({_id: new ObjectId(id)}, {name:1});
+    try {
+        const result = await dbCollection.findOne({_id: new ObjectId(id)}, {name:1});
 
-    res.send(result);    
+        res.send(result);   
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 app.get("/", (req, res) => {
