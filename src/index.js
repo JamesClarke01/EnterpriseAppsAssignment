@@ -2,12 +2,11 @@ const {MongoMemoryServer} = require('mongodb-memory-server');
 const {MongoClient, ObjectId} = require('mongodb');
 const express = require('express');
 const fs = require('fs'); //allows file system browsing
-const path = require('path'); //for joining paths
 
 const app = express()
 
 const jsonFilePath = "src/data/productsSmall.json";
-const indexFile = "index.html";
+const indexPath = "src/index.html";
 const collectionName = "products";
 
 let dbCollection = null
@@ -26,9 +25,6 @@ async function startDatabase() {
     dbCollection = db.collection(collectionName);
     await dbCollection.insertMany(data);
 }
-
-//Serve static files from the public directory
-app.use(express.static(path.join(__dirname, 'public')));
 
 //return an array of IDs of all products
 app.get("/products", async (req, res) => {    
@@ -51,9 +47,17 @@ app.get("/products/:id", async (req, res) => {
     }
 });
 
-//Serve index file
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', indexFile));
+    
+    fs.readFile(indexPath, 'utf8', (err, htmlContent) => {
+        if (err) {
+            console.error('Error reading HTML file:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        res.send(htmlContent);  
+    });
 });
 
 app.listen(3000, async() => {

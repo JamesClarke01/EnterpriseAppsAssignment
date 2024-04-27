@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+    <head>
+        <title>Products</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    </head>
+
+
+    <body>
+
+        <h1>
+            Products
+        </h1>
+
+        <p id = "data">Data Here!</p>
+
+        <button onclick="loadData()">Load Data</button>
+
+    </body>
+
+<html>
+
+<script>
+    let idArray = [];
+    //let idTest = ["662cc68cacc1ab247f47e569","662cc68cacc1ab247f47e56a","662cc68cacc1ab247f47e56b", "662cc68cacc1ab247f47e56d", "662cc68cacc1ab247f47e56e"];
+    var idTest = [];
+
+
+    var currentItem = 0;
+    
+
+    function init() {
+
+       
+        $.ajax({
+            url: "products",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {                
+                setupPage(data);
+                         
+            },
+            error: function (error) {
+                console.log('Error fetching data:', error);
+            }
+        })       
+
+    }
+
+    function setupPage(data) {
+        data.forEach(element => {                   
+            idArray.push(element["_id"]);                    
+        });
+
+        displayCurrentProduct();
+    }
+
+    function displayCurrentProduct() {        
+        
+        $.ajax({
+            url: "products/" + idArray[currentItem],
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.log('Error fetching data:', error);
+            }
+        })
+    }
+
+    init();
+</script>
