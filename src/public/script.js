@@ -32,6 +32,8 @@ function displayCurrentProduct() {
             console.log(data);
             document.getElementById("nameData").textContent = data.name;
             document.getElementById("priceData").textContent = data.price;
+            document.getElementById("manufacturerData").textContent = data.manufacturer;
+            document.getElementById("descriptionData").textContent = data.description;
             document.getElementById("imageData").src = data.image;
         },
         error: function (error) {

@@ -25,10 +25,21 @@
         
         
         <div class="card card-compact w-96 bg-base-100 shadow-xl">
-            <figure><img id="imageData"/></figure>
+            
             <div class="card-body">
                 <h2 class="card-title" id="nameData"></h2>
+                
+                <figure><img id="imageData"/></figure>
+                                
+                <b>Price: </b>
                 <p id="priceData"></p>
+
+                <b>Manufacturer: </b>
+                <p id="manufacturerData"></p>
+
+                <b>Description: </b>
+                <p id="descriptionData"></p>
+
                 <div class="card-actions justify-end">
                 <button class="btn btn-primary" onclick="decCurrentItem()">Back</button>
                 <button class="btn btn-primary" onclick="incCurrentItem()">Next</button>
