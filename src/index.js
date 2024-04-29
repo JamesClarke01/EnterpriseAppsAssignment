@@ -66,9 +66,24 @@ app.post("/products/", (req, res) => {
             return;
         }
         console.log('Inserted documents:', result.insertedCount);
-    });
+        res.send("Received JSON data");
+    });   
+});
 
-    res.send("Received JSON data");
+//Updating item
+app.put("/products/", (req, res) => {
+
+    const filter = {_id: new ObjectId(req.body.ID)};
+    const update = {$set: req.body};
+
+    dbCollection.updateOne(filter, update, (err, result) => {
+        if (err) {
+            console.error('Error:', err);
+            return;
+        }
+        console.log('Updated documents:', result.modifiedCount);
+        res.send("Received JSON data");
+    });
 });
 
 

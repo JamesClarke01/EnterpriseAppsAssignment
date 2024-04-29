@@ -23,7 +23,99 @@
         <h1>
             Update Item
         </h1>
+
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="price">Price:</label><br>
+        <input type="text" id="price" name="price"><br><br>
+
+        <label for="image">Image Link:</label><br>
+        <input type="text" id="image" name="image"><br><br>
+
+        <label for="manufacturer">Manufacturer:</label><br>
+        <input type="text" id="manufacturer" name="manufacturer"><br><br>
+
+        <label for="description">Description:</label><br>
+        <input type="text" id="description" name="description"><br><br>
+
+        <button onclick="updateItem()">Update Item</button>
         
     </body>
+
+    <script>
+        const queryParams = new URLSearchParams(window.location.search);
+        const itemID = queryParams.get('itemID');
+        
+        const nameField = document.getElementById("name");
+        const priceField = document.getElementById("price");
+        const imageField = document.getElementById("image");
+        const manufacturerField = document.getElementById("manufacturer");
+        const descriptionField = document.getElementById("description");
+
+        function setupPage() {
+            
+            fetch("products/" + itemID)
+                .then(response => {
+                    if (!response.ok) {
+                    throw new Error('Network response not ok');
+                    }
+                    return response.json(); 
+                })
+                .then(data => {
+                    console.log('Data:', data);        
+                    
+                    nameField.value = data.name;
+                    priceField.value = data.price;
+                    imageField.value = data.image;
+                    manufacturerField.value = data.manufacturer;
+                    descriptionField.value = data.description;                   
+
+                })
+                .catch(error => {
+                    console.error('Error:', error); 
+                });
+        }
+                
+        function updateItem() {                    
+            const name = nameField.value;
+            const price = priceField.value;
+            const image = imageField.value;
+            const manufacturer = manufacturerField.value;
+            const description = descriptionField.value;
+
+            if (name != "" && 
+                price != "" &&
+                image != "" &&
+                manufacturer != "" &&
+                description != "") {
+                    
+                const itemData = {
+                    ID: itemID,
+                    name: name,
+                    price: price,
+                    image: image,
+                    manufacturer: manufacturer,
+                    description: description
+                }        
+                
+                const putOptions = {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(itemData)
+                }
+
+                fetch("/products/", putOptions);
+
+                window.location.href = "index.html";
+            } else {
+                alert("Please fill out all fields.");
+            }
+        }
+
+        setupPage();
+    </script>
 
 <html>

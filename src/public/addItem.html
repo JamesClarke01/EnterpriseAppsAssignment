@@ -39,13 +39,13 @@
         <label for="description">Description:</label><br>
         <input type="text" id="description" name="description"><br><br>
 
-        <button onclick="addItem()">Add Item</button>
+        <button onclick="updateItem()">Add Item</button>
     
     </body>
 
 
     <script>
-        function addItem() {                    
+        function updateItem() {                    
 
             const name = document.getElementById("name").value;
             const price = document.getElementById("price").value;
@@ -58,7 +58,7 @@
                 image != "" &&
                 manufacturer != "" &&
                 description != "") {
-                    
+
                 const itemData = {
                     name: name,
                     price: price,
