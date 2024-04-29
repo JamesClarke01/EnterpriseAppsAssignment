@@ -57,7 +57,7 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'public', indexFile));
 });
 
-
+//Adding item
 app.post("/products/", (req, res) => {
 
     dbCollection.insertOne(req.body, (err, result) => {

@@ -53,23 +53,34 @@
             const manufacturer = document.getElementById("manufacturer").value;
             const description = document.getElementById("description").value;
             
-            const itemData = {
-                name: name,
-                price: price,
-                image: image,
-                manufacturer: manufacturer,
-                description: description
-            }        
-            
-            const postOptions = {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(itemData)
-            }
+            if (name != "" && 
+                price != "" &&
+                image != "" &&
+                manufacturer != "" &&
+                description != "") {
+                    
+                const itemData = {
+                    name: name,
+                    price: price,
+                    image: image,
+                    manufacturer: manufacturer,
+                    description: description
+                }        
+                
+                const postOptions = {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(itemData)
+                }
 
-            fetch("/products/", postOptions);
+                fetch("/products/", postOptions);
+
+                window.location.href = "index.html";
+            } else {
+                alert("Please fill out all fields.");
+            }
         }
     </script>
 <html>
