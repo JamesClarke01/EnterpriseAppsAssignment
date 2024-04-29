@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+    <head>
+        <title>Inventory Management | Add</title>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div class="titleBox">
+            <h1>
+                Inventory Management System
+            </h1>
+        </div>    
+        
+        <nav>
+            <ul class="navBar">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>        
+        
+        <h1>
+            Add Item
+        </h1>
+
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="price">Price:</label><br>
+        <input type="text" id="price" name="price"><br><br>
+
+        <label for="image">Image Link:</label><br>
+        <input type="text" id="image" name="image"><br><br>
+
+        <label for="manufacturer">Manufacturer:</label><br>
+        <input type="text" id="manufacturer" name="manufacturer"><br><br>
+
+        <label for="description">Description:</label><br>
+        <input type="text" id="description" name="description"><br><br>
+
+        <button onclick="addItem()">Add Item</button>
+    
+    </body>
+
+
+    <script>
+        function addItem() {                    
+
+            const name = document.getElementById("name").value;
+            const price = document.getElementById("price").value;
+            const image = document.getElementById("image").value;
+            const manufacturer = document.getElementById("manufacturer").value;
+            const description = document.getElementById("description").value;
+            
+            const itemData = {
+                name: name,
+                price: price,
+                image: image,
+                manufacturer: manufacturer,
+                description: description
+            }        
+            
+            const postOptions = {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(itemData)
+            }
+
+            fetch("/products/", postOptions);
+        }
+    </script>
+<html>

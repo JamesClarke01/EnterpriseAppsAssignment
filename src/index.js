@@ -29,6 +29,7 @@ async function startDatabase() {
 
 //Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
 //return an array of IDs of all products
 app.get("/products", async (req, res) => {    
@@ -54,6 +55,20 @@ app.get("/products/:id", async (req, res) => {
 //Serve index file
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'public', indexFile));
+});
+
+
+app.post("/products/", (req, res) => {
+
+    dbCollection.insertOne(req.body, (err, result) => {
+        if (err) {
+            console.error('Error:', err);
+            return;
+        }
+        console.log('Inserted documents:', result.insertedCount);
+    });
+
+    res.send("Received JSON data");
 });
 
 
