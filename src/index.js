@@ -33,9 +33,21 @@ app.use(express.json());
 
 //return an array of IDs of all products
 app.get("/products", async (req, res) => {    
-    const result = await dbCollection.find({}).project({_id:1}).toArray();
+    
+    const search = decodeURIComponent(req.query.search); 
+    var result = null;
 
-    res.send(result);
+    if (search != "undefined") {  //If search query is attached
+        const searchResults = await dbCollection.find({name:search}).project({_id:1}).toArray();
+
+        if (searchResults.length != 1) {
+            res.status(404).send("No results found");
+        } else {
+            res.send(searchResults[0]);
+        }
+    } else {
+        res.send(await dbCollection.find({}).project({_id:1}).toArray());  
+    }   
 });
 
 //return a specific product specified by id

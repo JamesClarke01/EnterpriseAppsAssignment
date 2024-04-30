@@ -27,6 +27,8 @@
         <button class="btn btn-primary" onclick="navigateToAddItem()">Add</button>
         <button class="btn btn-primary" onclick="navigateToUpdateItem()">Update</button>
         <button class="btn btn-primary" onclick="deleteCurrentItem()">Delete</button>
+        <input type="text" id="searchBox" name="searchBox">
+        <button class="btn btn-primary" onclick="search()">Search</button>
                 
         <div class="card card-compact w-96 bg-base-100 shadow-xl">
             
@@ -96,6 +98,36 @@
                     console.log('Error fetching data:', error);
                 }
             })
+        }
+
+        function search() {                        
+            const search = document.getElementById("searchBox").value;
+
+            if(search != "") {
+                
+                //Encode spaces
+                const queryString = new URLSearchParams({ search: encodeURIComponent(search)}).toString();                        
+
+                fetch(`/products?${queryString}`)
+                    .then(response => {
+
+                        if (response.status == 404) { 
+                            alert("Cannot find item");
+                            throw new Error('Item not found');                           
+                        } else {  //Item found                            
+                            return response.json();
+                        }
+                    })
+                    .then(data => {                                         
+                        //Set the currently displayed item to the one returned by search
+                        currentItem = idArray.indexOf(data._id); 
+
+                        displayCurrentProduct();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error); 
+                    });
+            }
         }
 
         function deleteCurrentItem() {
