@@ -6,7 +6,7 @@ const path = require('path'); //for joining paths
 
 const app = express()
 
-const jsonFilePath = "src/data/productsSmall.json";
+const jsonFilePath = "src/data/products.json";
 const indexFile = "index.html";
 const collectionName = "products";
 

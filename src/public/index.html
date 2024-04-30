@@ -19,40 +19,48 @@
                 <li><a href="about.html">About</a></li>
             </ul>
         </nav>    
+
+        <br>
         
-        <h1>
-            Inventory
-        </h1>
-        
-        <button class="btn btn-primary" onclick="navigateToAddItem()">Add</button>
-        <button class="btn btn-primary" onclick="navigateToUpdateItem()">Update</button>
-        <button class="btn btn-primary" onclick="deleteCurrentItem()">Delete</button>
-        <input type="text" id="searchBox" name="searchBox">
-        <button class="btn btn-primary" onclick="search()">Search</button>
-                
-        <div class="card card-compact w-96 bg-base-100 shadow-xl">
-            
-            <div class="card-body">
-                <h2 class="card-title" id="nameData"></h2>
-                
-                <figure><img id="imageData"/></figure>
-                                
-                <b>Price: </b>
-                <p id="priceData"></p>
+        <div id="overallDiv">
+            <div id="contentBox">
+                <div id="buttonBar">
+                    <button class="btn btn-primary" onclick="navigateToAddItem()">Add</button>
+                    <button class="btn btn-primary" onclick="navigateToUpdateItem()">Update</button>
+                    <button class="btn btn-primary" onclick="deleteCurrentItem()">Delete</button>
+                    <div>
+                        <input type="text" id="searchBox" name="searchBox">
+                        <button class="btn btn-primary" onclick="search()">Search</button>
+                    </div>
+                </div> 
+                <div class="itemCard">
+                    
+                    <div class="itemValues">
+                    
+                        <h2 id="nameData"></h2>
+                        
+                        <div class="imageContainer">
+                            <img id="imageData" class="itemImage"/>
+                        </div>
+                        
+                        <br>
+                                        
+                        <p><b>Price(€): </b></p>
+                        <p id="priceData"></p>
 
-                <b>Manufacturer: </b>
-                <p id="manufacturerData"></p>
+                        <p><b>Manufacturer: </b></p>
+                        <p id="manufacturerData"></p>
 
-                <b>Description: </b>
-                <p id="descriptionData"></p>
-
-                <div class="card-actions justify-end">
-                <button class="btn btn-primary" onclick="decCurrentItem()">Back</button>
-                <button class="btn btn-primary" onclick="incCurrentItem()">Next</button>
-                </div>
-            </div>
+                        <p><b>Description: </b></p>
+                        <p id="descriptionData"></p>
+                    </div>
+                    <div class = btnContainer>
+                        <button class="btn btn-primary" onclick="decCurrentItem()"><</button>
+                        <button class="btn btn-primary" onclick="incCurrentItem()">></button>
+                    </div>            
+                </div> 
+            </div>       
         </div>
-        
     </body>
 
     <script>
@@ -131,8 +139,13 @@
         }
 
         function deleteCurrentItem() {
-            fetch("/products/" + idArray[currentItem], {method: "DELETE"});
-            setupPage();
+            const result = confirm("Do you wish to delete the currently displayed item?");
+            
+            if(result == true) {
+                fetch("/products/" + idArray[currentItem], {method: "DELETE"});
+                setupPage();
+                alert("Item Deleted");
+            }
         }   
 
         function incCurrentItem() {
